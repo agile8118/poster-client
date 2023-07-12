@@ -4,6 +4,7 @@ import Input from "../reusable/Input";
 import Button from "../reusable/Button";
 import alert from "../lib/alert";
 import InlineLoading from "../reusable/InlineLoading";
+import t from "../lib/tokens";
 
 const Profile = () => {
   const [name, setName] = useState("");
@@ -15,10 +16,13 @@ const Profile = () => {
   const fetchData = async () => {
     setContentLoading(true);
     try {
+      /** @API call */
       const { data } = await axios.get("/api/user");
       setName(data.name);
       setUsername(data.username);
-    } catch (e) {}
+    } catch (e) {
+      alert(t.alert.error.default, "error");
+    }
     setContentLoading(false);
   };
 
@@ -31,13 +35,11 @@ const Profile = () => {
     setFormLoading(true);
 
     try {
+      /** @API call */
       await axios.put("/api/user", { name, username, password });
-      alert("Your info was updated successfully!", "success");
+      alert(t.alert.success.user.updated, "success");
     } catch (e) {
-      alert(
-        "Sorry an unexpected error occurred. Please try again later.",
-        "error"
-      );
+      alert(t.alert.error.default, "error");
     }
     setFormLoading(false);
   };

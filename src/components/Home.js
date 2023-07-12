@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import InlineLoading from "../reusable/InlineLoading";
+import t from "../lib/tokens";
 
 const Home = () => {
   const [posts, setPosts] = useState([]);
@@ -9,9 +10,12 @@ const Home = () => {
   const fetchPosts = async () => {
     setLoading(true);
     try {
+      /** @API call */
       const { data } = await axios.get("/api/posts");
       setPosts(data);
-    } catch (e) {}
+    } catch (e) {
+      alert(t.alert.error.default, "error");
+    }
     setLoading(false);
   };
 

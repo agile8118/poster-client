@@ -6,6 +6,7 @@ import Input from "../reusable/Input";
 import Textarea from "../reusable/Textarea";
 import Button from "../reusable/Button";
 import alert from "../lib/alert";
+import t from "../lib/tokens";
 
 const NewPost = () => {
   const [title, setTitle] = useState("");
@@ -20,15 +21,13 @@ const NewPost = () => {
     setLoading(true);
 
     try {
+      /** @API call */
       await axios.post("/api/posts", { title, body });
       navigate("/");
       setSection("/");
-      alert("Your post was created successfully!", "success");
+      alert(t.alert.success.post.created, "success");
     } catch (e) {
-      alert(
-        "Sorry an unexpected error occurred. Please try again later.",
-        "error"
-      );
+      alert(t.alert.error.default, "error");
     }
 
     setLoading(false);

@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { AppContext } from "../index";
 import Button from "../reusable/Button";
+import t from "../lib/tokens";
 
 const Header = () => {
   const { loggedIn, setLoggedIn, section, setSection } = useContext(AppContext);
@@ -11,6 +12,7 @@ const Header = () => {
 
   const checkLoggedIn = async () => {
     try {
+      /** @API call */
       await axios.get("/api/user");
       setLoggedIn(true);
     } catch (e) {
@@ -28,10 +30,14 @@ const Header = () => {
 
   const logout = async () => {
     try {
+      /** @API call */
       await axios.delete("/api/logout");
       setLoggedIn(false);
       setSection("/");
-    } catch (e) {}
+      alert(t.alert.success.auth.loggedOut, "success");
+    } catch (e) {
+      alert(t.alert.error.default, "error");
+    }
   };
 
   return (

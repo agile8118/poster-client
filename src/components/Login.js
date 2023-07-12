@@ -5,6 +5,7 @@ import { AppContext } from "../index";
 import Input from "../reusable/Input";
 import Button from "../reusable/Button";
 import alert from "../lib/alert";
+import t from "../lib/tokens";
 
 const Login = () => {
   const [username, setUsername] = useState("");
@@ -19,20 +20,18 @@ const Login = () => {
     setLoading(true);
 
     try {
-      const { data } = await axios.post("/api/login", { username, password });
+      /** @API call */
+      await axios.post("/api/login", { username, password });
       setLoggedIn(true);
       navigate("/profile");
       setSection("/profile");
-      alert("Successfully logged in!", "success");
+      alert(t.alert.success.auth.loggedIn, "success");
     } catch (e) {
       console.log(e);
       if (e.response && e.response.status === 401) {
-        alert("Username or password is incorrect.", "error");
+        alert(t.alert.error.auth.badLoginInfo, "error");
       } else {
-        alert(
-          "Sorry an unexpected error occurred. Please try again later.",
-          "error"
-        );
+        alert(t.alert.error.default, "error");
       }
     }
     setLoading(false);
